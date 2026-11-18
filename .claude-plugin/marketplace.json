@@ -8,7 +8,7 @@
       "name": "ds-toolkit",
       "source": "./plugin",
       "description": "Design System Toolkit: turn your logo and brand notes into a full design system.",
-      "version": "1.0.0"
+      "version": "1.0.1"
     }
   ],
   "metadata": {
