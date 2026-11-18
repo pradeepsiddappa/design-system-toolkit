@@ -1,0 +1,75 @@
+/* Design system tokens: Lumen Health (made-up sample brand) */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;800&family=Source+Sans+3:wght@400;500;600&family=DM+Mono:wght@500&display=swap');
+
+:root {
+  /* Ground */
+  --ds-canvas: #FFFFFF;
+  --ds-surface: #F2F7F9;
+  --ds-line: #DDE7EC;
+  --ds-line-strong: #B9CBD4;
+
+  /* Text */
+  --ds-ink: #0F2630;
+  --ds-ink-2: #4A6270;
+  --ds-ink-3: #6B8290;
+
+  /* Brand and accent */
+  --ds-brand: #12455A;
+  --ds-on-brand: #FFFFFF;
+  --ds-accent: #1F6FB8;
+  --ds-accent-deep: #17578F;
+  --ds-on-accent: #FFFFFF;
+
+  /* Palette */
+  --ds-c1: #12455A;
+  --ds-c2: #6CB4E4;
+  --ds-c3: #5FC2A0;
+  --ds-c4: #F28B6E;
+  --ds-c5: #FFC86B;
+
+  /* Status */
+  --ds-ok: #2E8B6A;
+  --ds-warn: #D99A2B;
+  --ds-error: #C2413A;
+  --ds-info: #1F6FB8;
+
+  /* Type */
+  --ds-font-display: 'Figtree', sans-serif;
+  --ds-font-body: 'Source Sans 3', sans-serif;
+  --ds-font-label: 'DM Mono', monospace;
+  --ds-weight-display: 800;
+  --ds-weight-body: 400;
+  --ds-weight-label: 500;
+  --ds-tracking-display: -0.025em;
+  --ds-tracking-label: 0.1em;
+  --ds-size-display-xl: 96px;
+  --ds-size-display: 72px;
+  --ds-size-heading: 40px;
+  --ds-size-subheading: 22px;
+  --ds-size-body: 17px;
+  --ds-size-small: 15px;
+  --ds-size-label: 12px;
+
+  /* Shape: soft and round */
+  --ds-radius-card: 22px;
+  --ds-radius-button: 100px;
+  --ds-radius-input: 12px;
+  --ds-radius-tag: 100px;
+
+  /* Space */
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-5: 24px;
+  --ds-space-6: 32px;
+  --ds-space-7: 48px;
+  --ds-space-8: 72px;
+
+  /* Layout and motion */
+  --ds-container: 1160px;
+  --ds-gutter: 24px;
+  --ds-ease: cubic-bezier(.2, .7, .3, 1);
+  --ds-duration-hover: 200ms;
+  --ds-duration-wipe: 450ms;
+}

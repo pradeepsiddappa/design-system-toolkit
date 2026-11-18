@@ -1,0 +1,21 @@
+{
+  "name": "ds-toolkit",
+  "version": "1.0.0",
+  "description": "Design System Toolkit: a set-up wizard that turns your logo and brand notes into a full design system - tokens, brand guidelines, playbook, components, slides and an AI brief.",
+  "author": {
+    "name": "Pradeep Siddappa",
+    "url": "https://designerswhobuild.in"
+  },
+  "keywords": [
+    "design system",
+    "design system toolkit",
+    "brand guidelines",
+    "tokens",
+    "components",
+    "style guide"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/pradeepsiddappa/design-system-toolkit",
+  "repository": "https://github.com/pradeepsiddappa/design-system-toolkit",
+  "icon": ".claude-plugin/icon.png"
+}

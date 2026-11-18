@@ -1,0 +1,90 @@
+/* Design system tokens: Designers Who Build (sample)
+   The values. Every document, component and asset reads these and nothing else.
+   Change a value here, reopen the documents, and they follow.
+   Source of each value: see the "src" fields in brand.js. */
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+:root {
+  /* Ground */
+  --ds-canvas: #FFFFFF;
+  --ds-surface: #F7F8FB;
+  --ds-line: #E8E9EE;
+  --ds-line-strong: #C9CDD8;
+
+  /* Text */
+  --ds-ink: #10131C;
+  --ds-ink-2: #5C6374;
+  --ds-ink-3: #989EAD;
+
+  /* Brand: the colour that carries covers, bands and headers */
+  --ds-brand: #10131C;
+  --ds-on-brand: #FFFFFF;
+
+  /* Accent: the one action colour */
+  --ds-accent: #3D6FE8;
+  --ds-accent-deep: #2B57C4;
+  --ds-on-accent: #FFFFFF;
+
+  /* Palette: supporting colours, used in small doses */
+  --ds-c1: #F23D63;
+  --ds-c2: #E39A00;
+  --ds-c3: #0FA875;
+  --ds-c4: #3D6FE8;
+  --ds-c5: #9C3DF5;
+  --ds-c6: #F0641B;
+
+  /* Status */
+  --ds-ok: #0FA875;
+  --ds-warn: #E39A00;
+  --ds-error: #F23D63;
+  --ds-info: #3D6FE8;
+
+  /* Signature gradient (optional: delete the line if the brand has none) */
+  --ds-gradient: linear-gradient(92deg, #F23D63 0%, #E39A00 25%, #0FA875 50%, #3D6FE8 75%, #9C3DF5 100%);
+
+  /* Type */
+  --ds-font-display: 'Ubuntu', sans-serif;
+  --ds-font-body: 'Outfit', sans-serif;
+  --ds-font-label: 'JetBrains Mono', monospace;
+  --ds-weight-display: 700;
+  --ds-weight-body: 400;
+  --ds-weight-label: 700;
+  --ds-tracking-display: -0.035em;
+  --ds-tracking-label: 0.14em;
+
+  /* Type scale */
+  --ds-size-display-xl: 124px;
+  --ds-size-display: 92px;
+  --ds-size-heading: 48px;
+  --ds-size-subheading: 24px;
+  --ds-size-body: 16.5px;
+  --ds-size-small: 14px;
+  --ds-size-label: 13px;
+
+  /* Shape */
+  --ds-radius-card: 28px;
+  --ds-radius-button: 100px;
+  --ds-radius-input: 14px;
+  --ds-radius-tag: 100px;
+
+  /* Space */
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-5: 24px;
+  --ds-space-6: 32px;
+  --ds-space-7: 48px;
+  --ds-space-8: 64px;
+  --ds-space-9: 96px;
+
+  /* Layout */
+  --ds-container: 1180px;
+  --ds-gutter: 28px;
+
+  /* Motion */
+  --ds-ease: cubic-bezier(.7, 0, .2, 1);
+  --ds-duration-hover: 160ms;
+  --ds-duration-wipe: 550ms;
+}

@@ -1,0 +1,115 @@
+/* Components, styled only by tokens.css.
+   Load tokens.css first, then this file. Change a token and every component follows.
+   Class names start with "ds-" so they never clash with a site's own styles. */
+
+.ds-eyebrow { font: var(--ds-weight-label) var(--ds-size-label)/1.2 var(--ds-font-label); letter-spacing: var(--ds-tracking-label); text-transform: uppercase; color: var(--ds-ink-2); }
+.ds-accent-text { color: var(--ds-accent); }
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .ds-has-gradient .ds-accent-text { background: var(--ds-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+}
+
+/* A light accent cannot be text on a light page: add class ds-accent-light to <html> and accent phrases become a highlighter mark */
+.ds-accent-light .ds-accent-text { color: var(--ds-on-accent, var(--ds-ink)); padding: 0 .1em; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  /* A band anchored to the bottom: it holds the descenders, and stops short of the line above */
+  background: linear-gradient(var(--ds-accent), var(--ds-accent)) 0 100% / 100% 80% no-repeat; }
+
+/* Buttons */
+.ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 12px 26px; border-radius: var(--ds-radius-button); border: 1px solid transparent; font: 600 15px/1 var(--ds-font-body); text-decoration: none; cursor: pointer; transition: transform var(--ds-duration-hover) ease, background-color var(--ds-duration-hover) ease, border-color var(--ds-duration-hover) ease; }
+.ds-btn:hover { transform: translateY(-2px); }
+.ds-btn:focus-visible { outline: 3px solid var(--ds-accent); outline-offset: 3px; }
+.ds-btn--primary { background: var(--ds-ink); color: var(--ds-canvas); }
+.ds-btn--accent { background: var(--ds-accent); color: var(--ds-on-accent, #fff); }
+.ds-btn--accent:hover { background: var(--ds-accent-deep); }
+.ds-btn--ghost { background: var(--ds-canvas); color: var(--ds-ink); border-color: var(--ds-line-strong); }
+.ds-btn--ghost:hover { border-color: var(--ds-ink); }
+.ds-btn--sm { min-height: 36px; padding: 8px 18px; font-size: 13px; }
+.ds-btn--lg { min-height: 54px; padding: 16px 34px; font-size: 17px; }
+.ds-btn[disabled], .ds-btn.is-disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+/* Fields */
+.ds-field { display: grid; gap: 6px; font: 400 var(--ds-size-small)/1.4 var(--ds-font-body); color: var(--ds-ink); }
+.ds-field > label, .ds-label { font-weight: 600; font-size: var(--ds-size-small); }
+.ds-input, .ds-select, .ds-textarea { width: 100%; min-height: 44px; padding: 10px 14px; border: 1px solid var(--ds-line-strong); border-radius: var(--ds-radius-input); background: var(--ds-canvas); color: var(--ds-ink); font: 400 15px/1.4 var(--ds-font-body); }
+.ds-textarea { min-height: 96px; resize: vertical; }
+.ds-input:focus, .ds-select:focus, .ds-textarea:focus, .ds-input.is-focus { outline: 3px solid color-mix(in srgb, var(--ds-accent) 35%, transparent); border-color: var(--ds-accent); }
+.ds-help { color: var(--ds-ink-2); font-size: 13px; }
+.ds-field--error .ds-input { border-color: var(--ds-error); }
+.ds-field--error .ds-help { color: color-mix(in srgb, var(--ds-error) 75%, var(--ds-ink)); }
+.ds-input[disabled] { background: var(--ds-surface); color: var(--ds-ink-3); }
+
+/* Choice controls */
+.ds-check, .ds-radio { display: inline-flex; align-items: center; gap: 10px; font: 400 15px var(--ds-font-body); color: var(--ds-ink); min-height: 32px; }
+.ds-check input, .ds-radio input { width: 20px; height: 20px; accent-color: var(--ds-accent); margin: 0; }
+.ds-switch { display: inline-flex; align-items: center; gap: 10px; font: 400 15px var(--ds-font-body); color: var(--ds-ink); }
+.ds-switch i { width: 44px; height: 26px; border-radius: 100px; background: var(--ds-line-strong); position: relative; transition: background var(--ds-duration-hover); }
+.ds-switch i::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform var(--ds-duration-hover); }
+.ds-switch.is-on i { background: var(--ds-accent); }
+.ds-switch.is-on i::after { transform: translateX(18px); }
+
+/* Tags */
+.ds-tag { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: var(--ds-radius-tag); border: 1px solid var(--ds-line-strong); font: var(--ds-weight-label) 11px/1 var(--ds-font-label); letter-spacing: .1em; text-transform: uppercase; color: var(--ds-ink); background: var(--ds-canvas); }
+.ds-tag--accent { background: color-mix(in srgb, var(--ds-accent) 12%, var(--ds-canvas)); border-color: color-mix(in srgb, var(--ds-accent) 35%, var(--ds-canvas)); }
+.ds-tag--ok { background: color-mix(in srgb, var(--ds-ok) 12%, var(--ds-canvas)); border-color: color-mix(in srgb, var(--ds-ok) 35%, var(--ds-canvas)); }
+.ds-tag--warn { background: color-mix(in srgb, var(--ds-warn) 14%, var(--ds-canvas)); border-color: color-mix(in srgb, var(--ds-warn) 40%, var(--ds-canvas)); }
+.ds-tag--error { background: color-mix(in srgb, var(--ds-error) 12%, var(--ds-canvas)); border-color: color-mix(in srgb, var(--ds-error) 35%, var(--ds-canvas)); }
+
+/* Pills: capitals sit high in their line box, because the box keeps room for descenders.
+   Trim the box to the capital height so the text sits in the true middle. Older browsers get a nudge instead. */
+.ds-tag, .ds-pill-text { padding-top: 8px; padding-bottom: 6px; }
+@supports (text-box: trim-both cap alphabetic) {
+  .ds-tag, .ds-pill-text { text-box: trim-both cap alphabetic; padding-top: 7px; padding-bottom: 7px; }
+}
+
+/* Cards */
+.ds-card { background: var(--ds-canvas); border: 1px solid var(--ds-line); border-radius: var(--ds-radius-card); padding: 24px; transition: transform var(--ds-duration-hover) ease, border-color var(--ds-duration-hover) ease; color: var(--ds-ink); font-family: var(--ds-font-body); }
+.ds-card:hover { transform: translateY(-2px); border-color: var(--ds-line-strong); }
+.ds-card h4 { font: var(--ds-weight-display) 20px/1.2 var(--ds-font-display); margin: 10px 0 6px; }
+.ds-card p { color: var(--ds-ink-2); margin: 0; font-size: 15px; }
+.ds-card--brand { background: var(--ds-brand); border-color: var(--ds-brand); color: var(--ds-on-brand, #fff); }
+.ds-card--brand p { color: color-mix(in srgb, var(--ds-on-brand, #fff) 75%, var(--ds-brand)); }
+
+/* Notes */
+.ds-note { border-radius: 14px; padding: 14px 18px; background: color-mix(in srgb, var(--ds-info) 9%, var(--ds-canvas)); font: 400 14px/1.5 var(--ds-font-body); color: var(--ds-ink); }
+.ds-note b { font-weight: 600; }
+.ds-note--ok { background: color-mix(in srgb, var(--ds-ok) 10%, var(--ds-canvas)); }
+.ds-note--warn { background: color-mix(in srgb, var(--ds-warn) 12%, var(--ds-canvas)); }
+.ds-note--error { background: color-mix(in srgb, var(--ds-error) 10%, var(--ds-canvas)); }
+
+/* Navigation */
+.ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 24px; background: var(--ds-canvas); font-family: var(--ds-font-body); }
+.ds-nav__brand { display: flex; align-items: center; gap: 10px; font: var(--ds-weight-display) 17px var(--ds-font-display); color: var(--ds-ink); text-decoration: none; }
+.ds-nav__brand img { width: 26px; height: 26px; object-fit: contain; }
+.ds-nav__links { display: flex; gap: 24px; font-size: 15px; }
+.ds-nav__links a { color: var(--ds-ink-2); text-decoration: none; }
+.ds-nav__links a[aria-current] { color: var(--ds-ink); font-weight: 600; }
+
+/* Tabs */
+.ds-tabs { display: flex; gap: 4px; padding: 4px; background: var(--ds-surface); border-radius: var(--ds-radius-button); width: max-content; max-width: 100%; }
+.ds-tabs button { border: 0; background: transparent; padding: 9px 18px; border-radius: var(--ds-radius-button); font: 500 14px var(--ds-font-body); color: var(--ds-ink-2); cursor: pointer; }
+.ds-tabs button[aria-selected="true"] { background: var(--ds-canvas); color: var(--ds-ink); box-shadow: 0 0 0 1px var(--ds-line); }
+
+/* Table */
+.ds-table { width: 100%; border-collapse: collapse; font: 400 14px/1.45 var(--ds-font-body); color: var(--ds-ink); }
+.ds-table th { text-align: left; font: var(--ds-weight-label) 11px var(--ds-font-label); letter-spacing: .08em; text-transform: uppercase; color: var(--ds-ink-2); padding: 10px 12px; }
+.ds-table td { padding: 10px 12px; vertical-align: top; }
+.ds-table tbody tr:nth-child(odd) td { background: var(--ds-surface); }
+.ds-table tbody td:first-child { border-radius: 10px 0 0 10px; }
+.ds-table tbody td:last-child { border-radius: 0 10px 10px 0; }
+
+/* Avatar */
+.ds-avatar { width: 40px; height: 40px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--ds-brand); color: var(--ds-on-brand, #fff); font: var(--ds-weight-display) 15px var(--ds-font-display); }
+
+/* Toast */
+.ds-toast { display: inline-flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 14px; background: var(--ds-ink); color: var(--ds-canvas); font: 500 14px var(--ds-font-body); }
+.ds-toast::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--ds-ok); }
+
+/* Dialog */
+.ds-dialog { background: var(--ds-canvas); border-radius: var(--ds-radius-card); padding: 28px; max-width: 420px; box-shadow: 0 0 0 1px var(--ds-line), 0 30px 60px -30px color-mix(in srgb, var(--ds-ink) 45%, transparent); font-family: var(--ds-font-body); color: var(--ds-ink); }
+.ds-dialog h4 { font: var(--ds-weight-display) 22px/1.2 var(--ds-font-display); margin: 0 0 8px; }
+.ds-dialog p { color: var(--ds-ink-2); margin: 0 0 20px; }
+.ds-dialog__actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-btn, .ds-card { transition: none; }
+  .ds-btn:hover, .ds-card:hover { transform: none; }
+}

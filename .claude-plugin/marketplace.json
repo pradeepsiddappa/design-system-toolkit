@@ -1,0 +1,17 @@
+{
+  "name": "designers-who-build",
+  "owner": {
+    "name": "Pradeep Siddappa"
+  },
+  "plugins": [
+    {
+      "name": "ds-toolkit",
+      "source": "./plugin",
+      "description": "Design System Toolkit: turn your logo and brand notes into a full design system.",
+      "version": "1.0.0"
+    }
+  ],
+  "metadata": {
+    "description": "Design and brand toolkits from Designers Who Build."
+  }
+}
