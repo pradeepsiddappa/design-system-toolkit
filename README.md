@@ -63,6 +63,8 @@ my-design-system/
 - **Components** come styled in your brand: buttons, fields, dropdowns, checkboxes, switches, tags, cards, notes, navigation, tabs, tables, avatars, toasts and dialogs.
 - **One source.** Every page reads `tokens.css` (the values) and `brand.js` (the words). Change a colour once and everything follows.
 - **Readable by rule.** Every piece of text must reach 4.5:1 contrast on what is behind it (3:1 for large text). The pages fix coloured words that fall short, and say so.
+- **Status colours that behave.** Success, warning, error and info come from your brand, each with a light background, text and border worked out for you. Warning always takes dark text, only the error colour marks danger, and a destructive button is included. If one of your brand colours looks like a status colour, the checks say so.
+- **Every colour has a reason.** The colour page says why each brand colour was chosen, in one line, and where that reason came from, so "why this blue?" always has an answer.
 - **Honest.** Values the AI was unsure about are tagged "To confirm", "Assumption" or "Proposed" until you approve them. Nothing about your business is invented: gaps are listed instead.
 
 ## Where AI is used, and where it is not

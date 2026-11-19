@@ -1,7 +1,7 @@
 {
   "name": "ds-toolkit",
   "displayName": "Design System Toolkit",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Design System Toolkit: a set-up wizard that turns your logo and brand notes into a full design system - tokens, brand guidelines, playbook, components, slides and an AI brief.",
   "author": {
     "name": "Pradeep Siddappa",

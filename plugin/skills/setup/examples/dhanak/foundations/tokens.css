@@ -29,9 +29,9 @@
 
   /* Status: money needs clear signals */
   --ds-ok: #1E9E6E;
-  --ds-warn: #D98E05;
+  --ds-warn: #F5D547;
   --ds-error: #D93A3A;
-  --ds-info: #3D7DD8;
+  --ds-info: #2F6FCC;
 
   /* Type */
   --ds-font-display: 'Plus Jakarta Sans', sans-serif;

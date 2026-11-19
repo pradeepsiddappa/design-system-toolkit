@@ -49,6 +49,7 @@ Building blocks:
 - **Accent phrase:** `<span class="ds-accent-text">phrase</span>`, once per asset at most.
 - **Components:** `ds-btn ds-btn--accent`, `ds-tag`, `ds-card`, `ds-note` and the rest from `components/components.html`.
 - **Colours and type:** only `var(--ds-...)`. No hex values in the asset.
+- **Status and danger:** status messages use the status shades (`--ds-error-bg`, `--ds-error-text` and so on) and always say the status in words. A delete or destructive button is `ds-btn ds-btn--danger` with a clear label. Never put a brand red or orange on a button, and never use the error colour in marketing.
 
 Sizes (set `ds-size` and `.asset` to match):
 

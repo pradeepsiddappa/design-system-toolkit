@@ -64,6 +64,10 @@ Read `reference/brand-js-guide.md` and the example closest to their brand in `ex
 - `<out>/foundations/tokens.css`: same variable names as the example. Colours from the logo and material. Fonts they named, or a close free Google Font with a `default` tag. Keep the example's spacing, radius and motion values unless the material says otherwise, tagged `default`.
 - `<out>/foundations/brand.js`: same shape as the example. Fill each field from their material.
 
+For every `brand` and `palette` colour (except `default` ones), also write `why`: one line on where the colour comes from and the job that makes it right, with its own `whySrc` tag. Use only what the logo and material show or state; if they are silent, say what the colour does and tag the reason `proposed`. This is the answer when someone asks "why this blue?".
+
+Status colours (`--ds-ok`, `--ds-warn`, `--ds-error`, `--ds-info`) are the brand's own too: pick them to suit the palette. Three rules: the warning colour is a bright amber or yellow that dark text reads on (4.5:1 or more), like a road sign; the error colour is the only colour that marks danger; and no brand or palette colour should look like a status colour. If the brand has a red, orange or green that sits close to error, warning or success, keep that brand colour for marketing and charts, never on buttons or status messages, and choose a status colour that clearly differs. You only set the four status colours: the generator works out each one's light background, text, border and text-on colour (`--ds-error-bg`, `--ds-error-text`, `--ds-error-border`, `--ds-on-error`, and so on). Set any of those yourself only if the brand material gives them.
+
 Tag every value with `src`: `buyer` (they gave it), `extracted` (you read it from the logo or material), `default` (a toolkit starting value), `assumption` (the material is silent), or `proposed` (your recommendation). Never invent facts about the brand, its customers or its results: leave a gap in `gaps` instead. Copy rules: hyphens only (no em or en dashes), sentence case.
 
 Check contrast as you go, using the readability rule in `reference/brand-js-guide.md`: every piece of text, including accent phrases and text on the brand colour, reaches 4.5:1 (3:1 for large text). Body text (`--ds-ink` on `--ds-canvas`) failing is a hard stop. If a brand colour fails as a text background, keep it and add a `fixes` entry with a darker or lighter proposal.
@@ -71,8 +75,10 @@ Check contrast as you go, using the readability rule in `reference/brand-js-guid
 ## Step 4: Confirm
 
 Show a short summary, not the files:
-- A table of the colours (name, hex, job, tag), the three fonts, and the voice line.
+- A table of the colours (name, hex, job, why, tag), the three fonts, and the voice line. Ask them to confirm or rewrite each reason too; a reason they confirm becomes `whySrc: 'buyer'`.
 - Anything tagged `extracted`, `assumption` or `proposed`, as a list.
+
+If a brand colour looks like a status colour (the generator's checks say so), ask one more question: "Your <colour> is close to the error (or warning, or success) colour. Keep it for marketing and charts only, or move the status colour further away?"
 
 Ask them to accept or change each item in one reply.
 

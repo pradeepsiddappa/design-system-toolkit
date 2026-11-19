@@ -22,6 +22,8 @@
 .ds-btn--accent:hover { background: var(--ds-accent-deep); }
 .ds-btn--ghost { background: var(--ds-canvas); color: var(--ds-ink); border-color: var(--ds-line-strong); }
 .ds-btn--ghost:hover { border-color: var(--ds-ink); }
+.ds-btn--danger { background: var(--ds-error); color: var(--ds-on-error, #fff); }
+.ds-btn--danger:hover { background: var(--ds-error-text, var(--ds-error)); }
 .ds-btn--sm { min-height: 36px; padding: 8px 18px; font-size: 13px; }
 .ds-btn--lg { min-height: 54px; padding: 16px 34px; font-size: 17px; }
 .ds-btn[disabled], .ds-btn.is-disabled { opacity: .45; cursor: not-allowed; transform: none; }
@@ -34,7 +36,7 @@
 .ds-input:focus, .ds-select:focus, .ds-textarea:focus, .ds-input.is-focus { outline: 3px solid color-mix(in srgb, var(--ds-accent) 35%, transparent); border-color: var(--ds-accent); }
 .ds-help { color: var(--ds-ink-2); font-size: 13px; }
 .ds-field--error .ds-input { border-color: var(--ds-error); }
-.ds-field--error .ds-help { color: color-mix(in srgb, var(--ds-error) 75%, var(--ds-ink)); }
+.ds-field--error .ds-help { color: var(--ds-error-text, color-mix(in srgb, var(--ds-error) 75%, var(--ds-ink))); }
 .ds-input[disabled] { background: var(--ds-surface); color: var(--ds-ink-3); }
 
 /* Choice controls */
@@ -49,9 +51,9 @@
 /* Tags */
 .ds-tag { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: var(--ds-radius-tag); border: 1px solid var(--ds-line-strong); font: var(--ds-weight-label) 11px/1 var(--ds-font-label); letter-spacing: .1em; text-transform: uppercase; color: var(--ds-ink); background: var(--ds-canvas); }
 .ds-tag--accent { background: color-mix(in srgb, var(--ds-accent) 12%, var(--ds-canvas)); border-color: color-mix(in srgb, var(--ds-accent) 35%, var(--ds-canvas)); }
-.ds-tag--ok { background: color-mix(in srgb, var(--ds-ok) 12%, var(--ds-canvas)); border-color: color-mix(in srgb, var(--ds-ok) 35%, var(--ds-canvas)); }
-.ds-tag--warn { background: color-mix(in srgb, var(--ds-warn) 14%, var(--ds-canvas)); border-color: color-mix(in srgb, var(--ds-warn) 40%, var(--ds-canvas)); }
-.ds-tag--error { background: color-mix(in srgb, var(--ds-error) 12%, var(--ds-canvas)); border-color: color-mix(in srgb, var(--ds-error) 35%, var(--ds-canvas)); }
+.ds-tag--ok { background: var(--ds-ok-bg, color-mix(in srgb, var(--ds-ok) 12%, var(--ds-canvas))); border-color: var(--ds-ok-border, color-mix(in srgb, var(--ds-ok) 35%, var(--ds-canvas))); color: var(--ds-ok-text, var(--ds-ink)); }
+.ds-tag--warn { background: var(--ds-warn-bg, color-mix(in srgb, var(--ds-warn) 14%, var(--ds-canvas))); border-color: var(--ds-warn-border, color-mix(in srgb, var(--ds-warn) 40%, var(--ds-canvas))); color: var(--ds-warn-text, var(--ds-ink)); }
+.ds-tag--error { background: var(--ds-error-bg, color-mix(in srgb, var(--ds-error) 12%, var(--ds-canvas))); border-color: var(--ds-error-border, color-mix(in srgb, var(--ds-error) 35%, var(--ds-canvas))); color: var(--ds-error-text, var(--ds-ink)); }
 
 /* Pills: capitals sit high in their line box, because the box keeps room for descenders.
    Trim the box to the capital height so the text sits in the true middle. Older browsers get a nudge instead. */
@@ -69,11 +71,14 @@
 .ds-card--brand p { color: color-mix(in srgb, var(--ds-on-brand, #fff) 75%, var(--ds-brand)); }
 
 /* Notes */
-.ds-note { border-radius: 14px; padding: 14px 18px; background: color-mix(in srgb, var(--ds-info) 9%, var(--ds-canvas)); font: 400 14px/1.5 var(--ds-font-body); color: var(--ds-ink); }
+.ds-note { border-radius: 14px; padding: 14px 18px; background: var(--ds-info-bg, color-mix(in srgb, var(--ds-info) 9%, var(--ds-canvas))); font: 400 14px/1.5 var(--ds-font-body); color: var(--ds-ink); }
 .ds-note b { font-weight: 600; }
-.ds-note--ok { background: color-mix(in srgb, var(--ds-ok) 10%, var(--ds-canvas)); }
-.ds-note--warn { background: color-mix(in srgb, var(--ds-warn) 12%, var(--ds-canvas)); }
-.ds-note--error { background: color-mix(in srgb, var(--ds-error) 10%, var(--ds-canvas)); }
+.ds-note--ok { background: var(--ds-ok-bg, color-mix(in srgb, var(--ds-ok) 10%, var(--ds-canvas))); }
+.ds-note--ok b { color: var(--ds-ok-text, inherit); }
+.ds-note--warn { background: var(--ds-warn-bg, color-mix(in srgb, var(--ds-warn) 12%, var(--ds-canvas))); }
+.ds-note--warn b { color: var(--ds-warn-text, inherit); }
+.ds-note--error { background: var(--ds-error-bg, color-mix(in srgb, var(--ds-error) 10%, var(--ds-canvas))); }
+.ds-note--error b { color: var(--ds-error-text, inherit); }
 
 /* Navigation */
 .ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 24px; background: var(--ds-canvas); font-family: var(--ds-font-body); }

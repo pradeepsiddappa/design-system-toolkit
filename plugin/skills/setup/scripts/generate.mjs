@@ -64,7 +64,12 @@ if (!existsSync(tokensPath) || !existsSync(brandPath)) {
   console.error('Missing ' + (!existsSync(tokensPath) ? 'tokens.css' : 'brand.js') + ' in ' + FOUND);
   process.exit(1);
 }
-const css = readFileSync(tokensPath, 'utf8');
+// The generator keeps a block of status shades at the end of tokens.css (see "status shades" below).
+// It is rewritten on every run, so it is left out here: anything the brand sets itself wins.
+const GEN_START = '/* status shades: worked out by the generator from the status colours. Set any of these above to override. */';
+const GEN_END = '/* end of status shades */';
+const cssAll = readFileSync(tokensPath, 'utf8');
+const css = cssAll.includes(GEN_START) ? cssAll.slice(0, cssAll.indexOf(GEN_START)).trimEnd() + '\n' + (cssAll.includes(GEN_END) ? cssAll.slice(cssAll.indexOf(GEN_END) + GEN_END.length).trimStart() : '') : cssAll;
 const tokens = {};
 for (const m of css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) tokens[m[1]] = m[2].trim();
 const sandbox = { window: {} };
@@ -85,12 +90,35 @@ const val = (t) => (t.startsWith('--') ? toHex(tokens[t]) : toHex(t));
 const lum = (h) => { const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
 const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
 
+// ---------- status shades (19 Nov 2026) ----------
+// Each status colour is the brand's own. From it the generator works out a light background, text that reads on that
+// background, a border, and the text colour on the full status colour. A brand can set any of these itself in tokens.css.
+const mixHex = (a, b, p) => '#' + [1, 3, 5].map((i) => Math.round(parseInt(a.slice(i, i + 2), 16) * p + parseInt(b.slice(i, i + 2), 16) * (1 - p)).toString(16).padStart(2, '0')).join('').toUpperCase();
+const STATUS = [['ok', 'success'], ['warn', 'warning'], ['error', 'error'], ['info', 'info']];
+const shades = {};
+for (const [s] of STATUS) {
+  const base = val('--ds-' + s), canvas = val('--ds-canvas') || '#FFFFFF', ink = val('--ds-ink') || '#000000';
+  if (!base) continue;
+  const set = (k, v) => { if (!tokens[k]) { shades[k] = v; tokens[k] = v; } };
+  set('--ds-' + s + '-bg', mixHex(base, canvas, s === 'warn' ? 0.16 : 0.12));
+  set('--ds-' + s + '-border', mixHex(base, canvas, 0.4));
+  let text = base;
+  for (let p = 1; p >= 0 && ratio(text, val('--ds-' + s + '-bg')) < 4.5; p -= 0.05) text = mixHex(base, ink, Math.max(p, 0));
+  set('--ds-' + s + '-text', text);
+  // Warning always carries dark text, like a road sign. The others take whichever reads better.
+  set('--ds-on-' + s, s === 'warn' ? ink : (ratio('#FFFFFF', base) >= ratio(ink, base) ? '#FFFFFF' : ink));
+}
+
 // ---------- checks ----------
 const REQUIRED = ['--ds-canvas', '--ds-surface', '--ds-line', '--ds-ink', '--ds-ink-2', '--ds-brand', '--ds-accent', '--ds-font-display', '--ds-font-body', '--ds-font-label'];
 for (const t of REQUIRED) need(tokens[t], 'tokens.css has ' + t);
 for (const c of DS.colors || []) {
   if (!tokens[c.token]) fail.push('brand.js names ' + c.token + ' but tokens.css does not set it');
   else if (!val(c.token)) find.push(c.token + ' is not a hex colour, so its contrast is not checked');
+}
+{
+  const noWhy = (DS.colors || []).filter((c) => (c.group === 'brand' || c.group === 'palette') && c.src !== 'default' && !c.why).map((c) => c.name);
+  if (noWhy.length) find.push('No reason recorded for ' + [...new Set(noWhy)].join(', ') + '. Add a one-line "why" to each in brand.js, so "why this colour?" has an answer');
 }
 need(DS.meta && DS.meta.name, 'brand.js has a brand name');
 const logoFile = DS.logo && DS.logo.file ? join(FOUND, DS.logo.file) : '';
@@ -116,6 +144,35 @@ for (const [fgT, bgT, where] of [['--ds-accent', '--ds-canvas', 'the page'], ['-
   if (!a || !b) continue;
   const r = ratio(a, b);
   if (r < 3) find.push('Accent text on ' + where + ' is ' + r.toFixed(2) + ':1, too low even for large text. The documents adjust it automatically. In other assets, darken or lighten the accent, or use it as a highlight behind dark text');
+}
+// Status colours must work with their text, and a brand colour must not be mistaken for a status.
+for (const [s, word] of STATUS) {
+  const base = val('--ds-' + s), on = val('--ds-on-' + s);
+  if (base && on && ratio(on, base) < 4.5) find.push('Text on the ' + word + ' colour is ' + ratio(on, base).toFixed(2) + ':1. ' + (s === 'warn' ? 'Warning carries dark text, so make the warning colour a brighter amber' : 'Make the ' + word + ' colour deeper, or set --ds-on-' + s));
+}
+const lab = (h) => {
+  const f = (v) => (v > 0.008856 ? Math.cbrt(v) : 7.787 * v + 16 / 116);
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  const [x, y, z] = [(r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047, r * 0.2126 + g * 0.7152 + b * 0.0722, (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883].map(f);
+  return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+};
+const deltaE = (a, b) => { const [p, q] = [lab(a), lab(b)]; return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]); };
+{
+  const close = [];
+  // The accent is a button colour by design, so for it the status colour has to move. Other brand and palette colours stay off buttons.
+  const accent = val('--ds-accent');
+  for (const c of (DS.colors || []).filter((c) => (c.group === 'brand' || c.group === 'palette') && c.src !== 'default')) {
+    const v = val(c.token);
+    if (!v) continue;
+    for (const [s, word] of STATUS.filter(([s]) => s !== 'info')) {
+      const sv = val('--ds-' + s);
+      if (!sv || deltaE(v, sv) >= 25) continue;
+      close.push(v === accent
+        ? c.name + ' (the accent) looks like the ' + word + ' colour. Make the ' + word + ' colour clearly different, so the main button is never read as a ' + word
+        : c.name + ' looks like the ' + word + ' colour. Keep it for marketing and charts, off buttons and status messages, or move the ' + word + ' colour further away');
+    }
+  }
+  for (const m of [...new Set(close)]) find.push(m);
 }
 const copyText = [];
 const walk = (o, path) => {
@@ -150,6 +207,11 @@ if (flag('check')) process.exit(0);
 // ---------- build the folder ----------
 mkdirSync(OUT, { recursive: true });
 if (resolve(FOUND) !== resolve(OUT, 'foundations')) cpSync(FOUND, join(OUT, 'foundations'), { recursive: true });
+// Write the status shades into the output tokens.css, so every page and asset can use them.
+if (Object.keys(shades).length) {
+  const block = GEN_START + '\n:root {\n' + Object.entries(shades).map(([k, v]) => '  ' + k + ': ' + v + ';').join('\n') + '\n}\n' + GEN_END + '\n';
+  writeFileSync(join(OUT, 'foundations/tokens.css'), css.trimEnd() + '\n\n' + block);
+}
 const tj = {};
 for (const [k, v] of Object.entries(tokens)) tj[k.replace(/^--ds-/, '')] = v;
 writeFileSync(join(OUT, 'foundations/tokens.json'), JSON.stringify({ $comment: 'Generated from tokens.css. Edit tokens.css, then run the generator again.', ...tj }, null, 2) + '\n');
@@ -171,7 +233,7 @@ const V = DS.voice || {}, M = DS.meta || {}, L = DS.logo || {}, C = DS.copy || {
 const bullet = (a) => (a || []).map((x) => '- ' + x).join('\n');
 if (only.includes('ai')) {
   mkdirSync(join(OUT, 'ai'), { recursive: true });
-  const colourLines = (DS.colors || []).map((c) => '| ' + c.name + ' | `' + c.token + '` | ' + (tokens[c.token] || '') + ' | ' + (c.role || '') + ' |').join('\n');
+  const colourLines = (DS.colors || []).map((c) => '| ' + c.name + ' | `' + c.token + '` | ' + (tokens[c.token] || '') + ' | ' + (c.role || '') + ' | ' + (c.why || '') + ' |').join('\n');
   writeFileSync(join(OUT, 'ai/agent-brief.md'), `# Agent brief: ${M.name}
 
 Read this before making any asset for ${M.name}. Then check the result against \`checks/CHECKLIST.md\`.
@@ -186,11 +248,16 @@ ${(DS.identity || {}).positioning || ''}
 - Voice: \`ai/voice.md\`.
 
 ## Colours
-| Name | Token | Value | Job |
-|---|---|---|---|
+| Name | Token | Value | Job | Why |
+|---|---|---|---|---|
 ${colourLines}
 
 ${(DS.colorRules || {}).ratio || ''}
+
+Status and danger:
+- Status messages use the status shades (\`--ds-error-bg\`, \`--ds-error-text\`, \`--ds-error-border\`, and the same for ok, warn, info) and always say the status in words.
+- Only the error colour marks danger. Delete and other destructive actions use \`ds-btn ds-btn--danger\` with a clear label. Brand colours never go on those buttons, and the error colour never appears in marketing.
+- Warning always carries dark text.
 
 ## Type
 ${(DS.type || []).map((f) => '- ' + f.role + ': ' + f.family + ' (`' + f.token + '`), ' + f.use).join('\n')}

@@ -17,6 +17,8 @@ CSS variables on `:root`. Keep every name the example uses, because the template
 | `--ds-accent` | The one action colour: primary buttons and links |
 | `--ds-font-display`, `--ds-font-body`, `--ds-font-label` | Three font stacks, each with a fallback |
 
+Status colours: `--ds-ok`, `--ds-warn`, `--ds-error`, `--ds-info`, chosen for the brand. Warning must take dark text at 4.5:1 or more. The generator adds `--ds-<status>-bg`, `-text`, `-border` and `--ds-on-<status>` at the end of tokens.css, in a block it rewrites on every run; set any of them above that block to override. Components: `ds-btn--danger` is the destructive button, in the error colour only.
+
 Also expected (the examples have them): `--ds-on-brand` and `--ds-on-accent` (text on those colours, such as `#FFFFFF`, or black on a light accent), `--ds-line-strong`, `--ds-ink-3`, `--ds-accent-deep` (accent hover), `--ds-c1` to `--ds-c6` (palette, as many as the brand has), `--ds-ok`, `--ds-warn`, `--ds-error`, `--ds-info`, the type scale (`--ds-size-*`), weights, tracking, radius (`--ds-radius-card`, `-button`, `-input`, `-tag`), space (`--ds-space-1` upwards) and motion.
 
 - Colours are hex values (`#RRGGBB`), so they can be checked.
@@ -38,7 +40,7 @@ One object, `window.DS`. Plain text only: no HTML. Two marks are allowed: `` `co
 | `voice` | `oneLine`, `weAre[[are, areNot]]`, `tone[[context, tone, example]]`, `rules[]`, `banned[]`, `samples[{ channel, copy, src }]` | oneLine, rules |
 | `copy` | Lines used in the sample screens and posts: `heroHeadline`, `heroLede`, `primaryAction`, `secondaryAction`, `navLinks[]`, `cards[[label, title]]`, `socialLine`, `cardTitle`, `cardLine`, `emailSubject`, `emailBody`, `emailAction`, `emptyState`, `error`, `footer`, `bannerLine` | yes |
 | `graphics` | `{ motif, why, photos[], src }`. `motif` is `arcs`, `blobs`, `grid`, `dots`, `stripes`, `rays` or `none`: decorative backgrounds drawn from the palette for posts, covers and banners, kept away from text. `photos` are paths inside foundations, such as `images/shop.jpg`, used on announcement posts | no (default `blobs`) |
-| `colors[]` | `{ token, name, role, group, src, note }`. `group` is `brand`, `ground`, `text`, `palette` or `status`. Every token named here must be set in tokens.css | yes |
+| `colors[]` | `{ token, name, role, group, src, note, why, whySrc }`. `group` is `brand`, `ground`, `text`, `palette` or `status`. `role` is the colour's job in about six words ("The pay button", "Failed or destructive"); it shows as a sentence under the colour name, so put longer guidance in `colorRules`. Every token named here must be set in tokens.css. `why` is one plain line on why this colour, for every `brand` and `palette` colour except `default` ones: where it comes from (the logo, the material, the owner) and the job that makes it right. `whySrc` tags the reason itself, like `src` (the owner may confirm a colour but not the reason the AI gave). Never invent history: no dates, research or meanings the material does not state | yes |
 | `colorRules` | `ratio`, `accent`, `gradient`, `documents` | no |
 | `contrast[]` | Pairs to check: `[foreground, background]`, tokens or hex | yes |
 | `fixes[]` | `{ token, current, proposed, why, src }` for colours that fail | no |

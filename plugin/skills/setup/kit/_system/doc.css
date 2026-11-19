@@ -98,6 +98,8 @@ table.t th:last-child, table.t tbody tr:nth-child(even) td:last-child { border-r
 .swatch b { font: var(--ds-weight-display) 20px/1.1 var(--ds-font-display); }
 .swatch small { display: block; font-size: 12px; opacity: .85; }
 .swatch .label { opacity: .9; }
+/* the colour's job, in a sentence under its name (no long text in capitals) */
+.swatch .job { font: 400 13px/1.35 var(--ds-font-body); opacity: .92; margin-top: 6px; }
 .swatch--big { min-height: 230px; }
 .swatch-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; margin: 8px 0 12px; }
 .pair { border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font: 600 15px var(--ds-font-body); break-inside: avoid; }

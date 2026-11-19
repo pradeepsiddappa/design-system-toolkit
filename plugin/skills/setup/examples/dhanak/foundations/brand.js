@@ -74,19 +74,19 @@ window.DS = {
   graphics: { motif: 'arcs', why: 'The rainbow arcs from the logo', photos: [], src: 'buyer' },
 
   colors: [
-    { token: '--ds-brand', name: 'Indigo', role: 'App bar, covers, the mark', group: 'brand', src: 'extracted' },
-    { token: '--ds-accent', name: 'Marigold', role: 'The pay button, always with dark text', group: 'brand', src: 'extracted' },
+    { token: '--ds-brand', name: 'Indigo', role: 'App bar, covers, the mark', group: 'brand', src: 'extracted', why: 'The deep square behind the logo. Steady and dark, so money screens feel calm and white text reads well.', whySrc: 'extracted' },
+    { token: '--ds-accent', name: 'Marigold', role: 'The pay button, always with dark text', group: 'brand', src: 'extracted', why: 'The outer arc of the logo\'s rainbow, and its warmest colour. Kept for the pay action alone, so it is always easy to find.', whySrc: 'proposed' },
     { token: '--ds-accent-deep', name: 'Marigold deep', role: 'Pay button pressed', group: 'brand', src: 'default' },
     { token: '--ds-canvas', name: 'White', role: 'Screens', group: 'ground', src: 'buyer' },
     { token: '--ds-surface', name: 'Lavender mist', role: 'Cards and panels', group: 'ground', src: 'default' },
     { token: '--ds-line', name: 'Line', role: 'Hairlines', group: 'ground', src: 'default' },
     { token: '--ds-ink', name: 'Night', role: 'Text and amounts', group: 'text', src: 'default' },
     { token: '--ds-ink-2', name: 'Dusk', role: 'Secondary text', group: 'text', src: 'default' },
-    { token: '--ds-c1', name: 'Indigo', role: 'Palette', group: 'palette', src: 'extracted' },
-    { token: '--ds-c2', name: 'Marigold', role: 'Palette', group: 'palette', src: 'extracted' },
-    { token: '--ds-c3', name: 'Rose', role: 'Palette', group: 'palette', src: 'extracted' },
-    { token: '--ds-c4', name: 'Mint', role: 'Palette', group: 'palette', src: 'extracted' },
-    { token: '--ds-c5', name: 'Sky', role: 'Palette', group: 'palette', src: 'proposed' },
+    { token: '--ds-c1', name: 'Indigo', role: 'Palette', group: 'palette', src: 'extracted', why: 'The logo\'s square.', whySrc: 'extracted' },
+    { token: '--ds-c2', name: 'Marigold', role: 'Palette', group: 'palette', src: 'extracted', why: 'The outer arc of the logo\'s rainbow.', whySrc: 'extracted' },
+    { token: '--ds-c3', name: 'Rose', role: 'Palette', group: 'palette', src: 'extracted', why: 'The middle arc of the logo\'s rainbow.', whySrc: 'extracted' },
+    { token: '--ds-c4', name: 'Mint', role: 'Palette', group: 'palette', src: 'extracted', why: 'The inner arc of the logo\'s rainbow.', whySrc: 'extracted' },
+    { token: '--ds-c5', name: 'Sky', role: 'Palette', group: 'palette', src: 'proposed', why: 'Not in the logo. Added so charts have a fifth calm colour that never looks like paid, pending or failed.', whySrc: 'proposed' },
     { token: '--ds-ok', name: 'Paid', role: 'Money moved', group: 'status', src: 'buyer' },
     { token: '--ds-warn', name: 'Pending', role: 'Waiting for the bank', group: 'status', src: 'buyer' },
     { token: '--ds-error', name: 'Failed', role: 'Money did not move', group: 'status', src: 'buyer' },
@@ -95,7 +95,7 @@ window.DS = {
   colorRules: {
     ratio: 'White screens, indigo for the brand, marigold only for the one pay action.',
     accent: 'Marigold is the pay button and nothing else, with dark text on it.',
-    documents: 'Rose, mint and sky mark categories in charts and tags. Green, amber and red are kept for paid, pending and failed only.'
+    documents: 'Rose, mint and sky mark categories in charts and tags. Green, yellow and red are kept for paid, pending and failed only.'
   },
   contrast: [['--ds-ink', '--ds-canvas'], ['--ds-ink-2', '--ds-canvas'], ['--ds-on-brand', '--ds-brand'], ['--ds-on-accent', '--ds-accent'], ['#FFFFFF', '--ds-accent'], ['#FFFFFF', '--ds-ok']],
 
