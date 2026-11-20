@@ -70,7 +70,7 @@ Status colours (`--ds-ok`, `--ds-warn`, `--ds-error`, `--ds-info`) are the brand
 
 Tag every value with `src`: `buyer` (they gave it), `extracted` (you read it from the logo or material), `default` (a toolkit starting value), `assumption` (the material is silent), or `proposed` (your recommendation). Never invent facts about the brand, its customers or its results: leave a gap in `gaps` instead. Copy rules: hyphens only (no em or en dashes), sentence case.
 
-Check contrast as you go, using the readability rule in `reference/brand-js-guide.md`: every piece of text, including accent phrases and text on the brand colour, reaches 4.5:1 (3:1 for large text). Body text (`--ds-ink` on `--ds-canvas`) failing is a hard stop. If a brand colour fails as a text background, keep it and add a `fixes` entry with a darker or lighter proposal.
+Check contrast as you go, using the readability rule in `reference/brand-js-guide.md`: every piece of text, including accent phrases and text on the brand colour, reaches 4.5:1 (3:1 for large text). Body text (`--ds-ink` on `--ds-canvas`) failing is a hard stop. If a brand colour fails as a text background, keep it and add a `fixes` entry with a darker or lighter proposal. If the accent is too faint as text on the brand colour (or other dark grounds), propose a lighter colour for accent words there; once the owner picks one, set it as `--ds-accent-on-dark` in tokens.css, so the documents and assets use it instead of brightening the accent.
 
 ## Step 4: Confirm
 

@@ -544,7 +544,11 @@
       }
       return hex('--ds-canvas');
     };
-    let adjusted = 0;
+    // The brand's own colour for accent text on dark grounds (optional token). When the accent falls short
+    // on a dark ground, this is used instead of brightening the accent, so the documents follow the brand's choice.
+    const AOD = raw('--ds-accent-on-dark') ? hex('--ds-accent-on-dark') : null;
+    const ACCENTS = ['--ds-accent', '--ds-accent-deep'].filter((t) => raw(t)).map(hex);
+    let adjusted = 0, onDark = 0;
     document.querySelectorAll('body *').forEach((el) => {
       if (!Array.from(el.childNodes).some((n) => n.nodeType === 3 && n.textContent.trim())) return;
       if (el.closest('.misuse, .pair, .swatch, [disabled], .is-disabled, [data-keep-colour]')) return;
@@ -555,6 +559,12 @@
       const fg = rgbHex(c[0], c[1], c[2]), seen = op < 1 ? mixHex(bg, fg, op) : fg;
       if (ratio(seen, bg) >= need) return;
       if (op < 1 && el.style) el.style.opacity = '1';
+      if (AOD && lum(bg) < 0.4 && ACCENTS.includes(fg) && ratio(AOD, bg) >= need) {
+        el.style.color = AOD;
+        el.dataset.contrastFixed = fg + ' on ' + bg + ', ' + ratio(seen, bg).toFixed(2) + ':1, now ' + AOD + ' (the brand\'s accent on dark)';
+        adjusted++; onDark++;
+        return;
+      }
       const toward = lum(bg) < 0.4 ? '#FFFFFF' : INK;
       let out = fg; for (let f = 0.1; f <= 1.001 && ratio(out, bg) < need; f += 0.1) out = mixHex(fg, toward, f);
       if (ratio(out, bg) < need) { out = ratio(INK, bg) > ratio('#FFFFFF', bg) ? INK : '#FFFFFF'; if (ratio(out, bg) < need) el.dataset.contrastUnfixed = 'best possible ' + ratio(out, bg).toFixed(2) + ':1'; }
@@ -564,7 +574,7 @@
     });
     document.documentElement.dataset.contrastAdjusted = String(adjusted);
     const log = document.getElementById('ds-contrast-log');
-    if (log) log.textContent = adjusted ? 'While drawing this document, ' + adjusted + ' pieces of coloured text fell short and were darkened or lightened to pass.' : 'Every piece of text in this document passed without changes.';
+    if (log) log.textContent = adjusted ? 'While drawing this document, ' + adjusted + ' pieces of coloured text fell short and were ' + (onDark ? (onDark === adjusted ? 'set in the brand\'s accent colour for dark grounds' : 'darkened, lightened or set in the brand\'s accent colour for dark grounds') : 'darkened or lightened') + ' to pass.' : 'Every piece of text in this document passed without changes.';
 
     // ---------- fit mock screens and slides to the space they have ----------
     const fit = (printing) => {

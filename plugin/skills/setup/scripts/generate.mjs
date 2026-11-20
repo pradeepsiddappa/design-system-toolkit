@@ -136,13 +136,22 @@ for (const [a, b] of (DS.contrast || []).concat(tokens['--ds-on-accent'] ? [['--
   const fa = val(a), fb = val(b);
   if (!fa || !fb) continue;
   const r = ratio(fa, fb);
+  // Accent text on a dark ground is covered when the brand's --ds-accent-on-dark passes there
+  if (r < 4.5 && a === '--ds-accent' && val('--ds-accent-on-dark') && ratio(val('--ds-accent-on-dark'), fb) >= 4.5) continue;
   if (r < 4.5) find.push(a + ' on ' + b + ' is ' + r.toFixed(2) + ':1' + (r >= 3 ? ', large text only' : ', fails for text'));
 }
 // Readability rule: the accent is often used as text. Say where it falls short, so assets made outside the templates get it right.
+// --ds-accent-on-dark (optional) is the brand's own colour for accent text on dark grounds; the templates use it first.
+const aod = val('--ds-accent-on-dark');
 for (const [fgT, bgT, where] of [['--ds-accent', '--ds-canvas', 'the page'], ['--ds-accent', '--ds-brand', 'the brand colour']]) {
   const a = val(fgT), b = val(bgT);
   if (!a || !b) continue;
   const r = ratio(a, b);
+  if (r < 3 && aod && bgT === '--ds-brand' && ratio(a, b) < ratio(aod, b)) {
+    const ra = ratio(aod, b);
+    if (ra < 4.5) find.push('--ds-accent-on-dark on the brand colour is ' + ra.toFixed(2) + ':1. It is meant for accent text on dark grounds, so it should reach 4.5:1');
+    continue;
+  }
   if (r < 3) find.push('Accent text on ' + where + ' is ' + r.toFixed(2) + ':1, too low even for large text. The documents adjust it automatically. In other assets, darken or lighten the accent, or use it as a highlight behind dark text');
 }
 // Status colours must work with their text, and a brand colour must not be mistaken for a status.
@@ -274,7 +283,7 @@ ${bullet(L.rules)}
 
 ## Before you hand anything back
 - Every colour is a token from tokens.css.
-- Readability rule: every piece of text passes 4.5:1 against what is behind it (3:1 for large text: 24px, or 19px bold). This includes accent phrases, coloured words, labels and text on brand colours. If a coloured word falls short, darken it on light grounds or lighten it on dark grounds until it passes, or put a light accent behind dark text as a highlight.
+- Readability rule: every piece of text passes 4.5:1 against what is behind it (3:1 for large text: 24px, or 19px bold). This includes accent phrases, coloured words, labels and text on brand colours. If a coloured word falls short, darken it on light grounds or lighten it on dark grounds until it passes, or put a light accent behind dark text as a highlight.${aod ? '\n- Accent words on dark grounds use var(--ds-accent-on-dark) (' + aod + '), the brand\'s own choice, not a brightened accent.' : ''}
 - Copy uses hyphens only, sentence case, no banned words.
 - It works on desktop and at 390px wide, with no sideways scroll.
 - Say which values you were unsure about. Do not hide a gap.

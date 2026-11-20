@@ -74,6 +74,8 @@ It saves `<short-name>.png` and reports:
 - readability adjustments (fine, but look at them) and anything that **STILL FAILS** (fix the colour pair and run again)
 - colours that are not tokens, banned words and long dashes (fix them and run again)
 
+If you change the asset after this, even a small edit, run `snap.mjs` again before handing it back: the picture you show must come from the final file.
+
 ## 5. Hand it back
 Show the picture. In two or three lines, say what you made, which brand rules you used (for example "statement layout, arcs motif, one accent phrase"), and anything you were unsure of. Offer one or two variations (another layout, another size), not a long list.
 

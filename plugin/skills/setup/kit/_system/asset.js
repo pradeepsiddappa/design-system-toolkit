@@ -74,6 +74,9 @@
     const mixHex = (a, b, f) => rgbHex(...[1, 3, 5].map((i) => parseInt(a.slice(i, i + 2), 16) * (1 - f) + parseInt(b.slice(i, i + 2), 16) * f));
     const bandOf = (img) => { if (!img || img.indexOf('gradient') < 0) return null; const found = img.match(/(rgba?\([^)]*\)|color\(srgb[^)]*\))/g) || []; const hs = found.map(nums).filter((c) => c.length >= 3 && (c.length < 4 || c[3] > 0.5)).map((c) => rgbHex(c[0], c[1], c[2])); return hs.length && hs.every((h) => h === hs[0]) ? hs[0] : null; };
     const groundOf = (el) => { for (let n = el; n && n.nodeType === 1; n = n.parentElement) { const s = getComputedStyle(n); const b = bandOf(s.backgroundImage); if (b) return b; const c = nums(s.backgroundColor); if (c.length >= 3 && (c.length < 4 || c[3] > 0.5)) return rgbHex(c[0], c[1], c[2]); } return hex('--ds-canvas'); };
+    // The brand's own colour for accent text on dark grounds (optional token), used before brightening the accent.
+    const AOD = raw('--ds-accent-on-dark') ? hex('--ds-accent-on-dark') : null;
+    const ACCENTS = ['--ds-accent', '--ds-accent-deep'].filter((t) => raw(t)).map(hex);
     let adjusted = 0, unfixed = 0;
     document.querySelectorAll('body *').forEach((el) => {
       if (!Array.from(el.childNodes).some((n) => n.nodeType === 3 && n.textContent.trim())) return;
@@ -85,6 +88,12 @@
       const fg = rgbHex(c[0], c[1], c[2]), seen = op < 1 ? mixHex(bg, fg, op) : fg;
       if (ratio(seen, bg) >= need) return;
       if (op < 1) el.style.opacity = '1';
+      if (AOD && lum(bg) < 0.4 && ACCENTS.includes(fg) && ratio(AOD, bg) >= need) {
+        el.style.color = AOD;
+        el.dataset.contrastFixed = fg + ' on ' + bg + ', ' + ratio(seen, bg).toFixed(2) + ':1, now ' + AOD + ' (the brand\'s accent on dark)';
+        adjusted++;
+        return;
+      }
       const toward = lum(bg) < 0.4 ? '#FFFFFF' : INK;
       let out = fg; for (let f = 0.1; f <= 1.001 && ratio(out, bg) < need; f += 0.1) out = mixHex(fg, toward, f);
       if (ratio(out, bg) < need) { out = ratio(INK, bg) > ratio('#FFFFFF', bg) ? INK : '#FFFFFF'; if (ratio(out, bg) < need) { el.dataset.contrastUnfixed = 'best possible ' + ratio(out, bg).toFixed(2) + ':1'; unfixed++; } }
